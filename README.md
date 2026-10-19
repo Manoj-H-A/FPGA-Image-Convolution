@@ -145,3 +145,23 @@ The design is verified by streaming image tiles to the FPGA over UART, processin
 - **EDA Tools:** Xilinx Vivado (Synthesis, Implementation, Timing, Power Analysis)
 - **Verification:** Python 3 (NumPy, PySerial), Vivado Simulator
 - **Protocols:** UART (115200 baud), SCCB (I2C for Camera)
+
+## 👥 Team
+
+**Team Sutra-dhar**  
+Track 1 — FPGA  
+KLE Technological University, Hubballi
+
+- Keerti Kallur
+- Manoj H. A.
+- Rutvik Malali
+
+---
+
+## 📚 Reference
+
+The project presentation references the following paper for comparison:
+
+- DOI: [10.1109/COMPSAC61105.2024.00071](https://doi.org/10.1109/COMPSAC61105.2024.00071)
+
+---

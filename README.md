@@ -7,7 +7,7 @@
 
 ## 📌 Overview
 
-**Sutra-dhar** is a highly parallelized 2D Convolution Core implemented on the Xilinx Artix-7 FPGA. Standard software-based spatial convolution on embedded CPUs introduces significant latency due to sequential loop execution (\(O(N^2 \cdot K^2)\)).
+**Sutra-dhar** is a highly parallelized 2D Convolution Core implemented on the Xilinx Artix-7 FPGA. Standard software-based spatial convolution on embedded CPUs introduces significant latency due to sequential loop execution.
 
 To overcome this, this project leverages **Urdhva Tiryagbhyam (Vedic) multiplication** alongside a **Carry-Save Adder (CSA) tree** and a **Brent-Kung prefix adder**. The architecture is fully pipelined to maximize arithmetic throughput, reduce multi-operand accumulation delay, and prove exact bit-level equivalence against a Python Golden Model.
 

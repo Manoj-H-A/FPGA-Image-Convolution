@@ -55,7 +55,7 @@ int this also used sutr dhar chaneg that
 - **Weight (B):** Signed 8-bit (-128 to +127)
 - **Sparsity-Aware Design:** Zero-detection and operand isolation disable internal switching when inputs are zero, reducing dynamic power.
 - **Hierarchical Design:** Built using `2×2→4×4→8×8` Vedic sub-modules.
-- .
+- **Accumulation:** Carry-save compression followed by a final carry-propagate adder.
 
 ---
 
@@ -94,8 +94,8 @@ int this also used sutr dhar chaneg that
 | **Metric**              | **With Sparse Optimization** | **Without Sparse Optimization** |
 | ----------------------- | ---------------------------- | ------------------------------- |
 | **Total On-Chip Power** | **0.121 W**                  | **0.109 W**                     |
-| **Dynamic Power**       | 0.024 W (20%)                | 0.012 W (11%)                   |
-| **Device Static**       | 0.097 W (80%)                | 0.097 W (89%)                   |
+| **Dynamic Power**       | 0.024 W                      | 0.012 W                         |
+| **Device Static**       | 0.097 W                      | 0.097 W                         |
 | **Junction Temp**       | 25.5 °C                      | 25.5 °C                         |
 
 ---

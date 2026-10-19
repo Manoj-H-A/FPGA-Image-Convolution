@@ -35,17 +35,6 @@ The convolution engine is designed to be parameterized for different image dimen
 - **Dedicated DSP Usage:** 0 DSP slices used; the arithmetic datapath is implemented using FPGA logic resources.
 - **Design Configuration:** Parameterized convolution architecture designed to support configurable image dimensions.
 - **Optimization Focus:** Reduced carry-propagation delay, efficient resource utilization, and pipelined arithmetic execution.
-
-### 1. Implementation Comparison
-
-| **Implementation** | **Area (LUTs)** | **Delay (ns)** | **ADP (Area-Delay Product)** |
-|---|---:|---:|---:|
-| Baseline/DSP | 0 | 22.756 | — |
-| Conv-Vedic-KS | 1,755 | 25.293 | 44,389 |
-| Conv-Vedic-RCA | 1,223 | 22.682 | 27,740 |
-| **Conv-Vedic-CSA_BK (Our Design)** | **1,176** | **17.002** | **19,994** |
-| VEDIC_CSA-KS | 1,214 | 16.808 | 20,404 |
-
 ---
 ---
 

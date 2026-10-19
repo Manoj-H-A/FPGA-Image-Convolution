@@ -75,7 +75,6 @@ The design supports both a live camera input and UART-based PC input.
 [20-bit Brent-Kung Adder] -> [R3: 20-bit Output Register] (Pipeline Stage 3)
 ```
 
-int this also used sutr dhar chaneg that
 
 ### Mixed-Signed Vedic Multiplier
 

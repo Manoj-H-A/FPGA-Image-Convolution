@@ -12,13 +12,45 @@
 To overcome this, this project leverages **Urdhva Tiryagbhyam (Vedic) multiplication** alongside a **Carry-Save Adder (CSA) tree** and a **Brent-Kung prefix adder**. The architecture is fully pipelined to maximize arithmetic throughput, reduce multi-operand accumulation delay, and prove exact bit-level equivalence against a Python Golden Model.
 
 ---
-
-## ✨ Key Innovations
+## ✨ Key Design Features
 
 1. **9-Way Parallel Vedic Multiplication:** Executes 9 mixed-signed multiplications (8-bit Unsigned Pixel × 8-bit Signed Weight) simultaneously.
 2. **CSA 9→2 Carry-Save Compression:** Uses a 4-layer tree (9→6→4→3→2) to postpone carry propagation, drastically reducing the critical path.
-3. **Pipelined Multiplier → CSA → CPA Datapath:** A 3-stage pipeline (R1, R2, R3) that allows continuous data flow.
+3. **Hybrid CSA–Brent–Kung Adder Architecture:** Combines a Carry-Save Adder (CSA) tree with a Brent–Kung parallel-prefix adder to reduce multi-operand accumulation delay.
+4. **DSP-Free Implementation:** Implements the convolution arithmetic using FPGA logic without using dedicated DSP slices.
+5. **Parameterized Convolution Engine:** Designed to support configurable image dimensions, allowing the architecture to adapt to different image-processing workloads.
+6. **Pipelined Multiplier → CSA → CPA Datapath:** A 3-stage pipeline (R1, R2, R3) that allows continuous data flow.
 
+---
+
+### Parameterized Image Processing
+
+The convolution engine is designed to be parameterized for different image dimensions rather than being restricted to a fixed 8×8 image. The input dimensions can be configured to process different image sizes while applying the same 3×3 convolution operation. This makes the architecture adaptable to different image-processing workloads.
+
+---
+
+## 📊 Hardware Results & Comparisons
+
+### Implementation Highlights
+
+- **Arithmetic Architecture:** Hybrid Carry-Save Adder (CSA) tree and Brent–Kung parallel-prefix adder.
+- **Dedicated DSP Usage:** 0 DSP slices used; the arithmetic datapath is implemented using FPGA logic resources.
+- **Design Configuration:** Parameterized convolution architecture designed to support configurable image dimensions.
+- **Optimization Focus:** Reduced carry-propagation delay, efficient resource utilization, and pipelined arithmetic execution.
+
+### 1. Implementation Comparison
+
+| **Implementation** | **Area (LUTs)** | **Delay (ns)** | **ADP (Area-Delay Product)** |
+|---|---:|---:|---:|
+| Baseline/DSP | 0 | 22.756 | — |
+| Conv-Vedic-KS | 1,755 | 25.293 | 44,389 |
+| Conv-Vedic-RCA | 1,223 | 22.682 | 27,740 |
+| **Conv-Vedic-CSA_BK (Our Design)** | **1,176** | **17.002** | **19,994** |
+| VEDIC_CSA-KS | 1,214 | 16.808 | 20,404 |
+
+---
+
+**Important:** Keep the parameterized-dimension and zero-DSP claims only if they match your Verilog RTL and Vivado synthesis results. Zero DSP usage means the multipliers use FPGA fabric logic rather than dedicated DSP slices.
 ---
 
 ## 🏗️ System Architecture

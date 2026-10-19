@@ -1,65 +1,43 @@
-# FPGA Acceleration of 2D Image Convolution
+# 🚀 Sutra-dhar: Hardware Acceleration of 2D Image Convolution using Hierarchical Vedic Multiplication
 
-A pipelined hardware implementation of 2D image convolution using hierarchical Vedic multiplication, designed for low-latency edge processing on a Xilinx Artix-7 FPGA.
+![Platform](https://img.shields.io/badge/Platform-Xilinx%20Artix--7%20XC7A100T-blue)
+![Language](https://img.shields.io/badge/Language-Verilog%20HDL-orange)
+![Tool](https://img.shields.io/badge/EDA-Vivado%20%7C%20Python-yellow)
+![Domain](https://img.shields.io/badge/Domain-Edge%20AI%20%7C%20FPGA%20Acceleration-brightgreen)
 
-## Overview
+## 📌 Overview
+**Sutra-dhar** is a highly parallelized 2D Convolution Core implemented on the Xilinx Artix-7 FPGA. Standard software-based spatial convolution on embedded CPUs introduces significant latency due to sequential loop execution (\(O(N^2 \cdot K^2)\)). 
 
-Software-based spatial convolution relies on repeated multiply-accumulate operations, which can introduce latency due to sequential computation and memory-access overhead. Our design accelerates this workload by implementing a parallel convolution datapath in FPGA logic.
+To overcome this, this project leverages **Urdhva Tiryagbhyam (Vedic) multiplication** alongside a **Carry-Save Adder (CSA) tree** and a **Brent-Kung prefix adder**. The architecture is fully pipelined to maximize arithmetic throughput, reduce multi-operand accumulation delay, and prove exact bit-level equivalence against a Python Golden Model.
 
-The architecture explores Urdhva Tiryagbhyam (Vedic) multiplication and optimized accumulation structures to improve arithmetic performance while maintaining correct output values.
+---
 
-## Design Architecture
+## ✨ Key Innovations
+1. **9-Way Parallel Vedic Multiplication:** Executes 9 mixed-signed multiplications (8-bit Unsigned Pixel × 8-bit Signed Weight) simultaneously.
+2. **CSA 9→2 Carry-Save Compression:** Uses a 4-layer tree (9→6→4→3→2) to postpone carry propagation, drastically reducing the critical path.
+3. **Pipelined Multiplier → CSA → CPA Datapath:** A 3-stage pipeline (R1, R2, R3) that allows continuous data flow.
 
-The datapath consists of the following main stages:
+---
 
-1. **Parallel Vedic multiplication** — Generates partial products using the Urdhva Tiryagbhyam principle.
-2. **Carry-save accumulation** — Reduces multiple partial products while limiting carry-propagation overhead.
-3. **Final adder stage** — Uses a parallel-prefix adder, including a Brent–Kung-based configuration, in the evaluated architecture.
-4. **Pipelined convolution datapath** — Organizes arithmetic stages to support parallel 3×3 multiply-accumulate operations.
-5. **Zero-operand isolation** — Bypasses unnecessary arithmetic activity for zero operands, targeting reduced switching activity without changing numerical functionality.
+## 🏗️ System Architecture
 
-Multiple multiplier and adder configurations were evaluated, including carry-save reduction with Brent–Kung and Kogge–Stone adders, as well as ripple-carry-based accumulation.
+The design supports both a live camera input and UART-based PC input.
 
-## FPGA Platform and Tools
+### System Level (Level 1)
+* **Input:** 8×8 Image via UART RX or OV7670 Camera (RGB565 → Grayscale → 8×8 Point Sampling).
+* **Control:** Kernel Selection / Control FSM.
+* **Compute:** 3×3 Sliding Convolution MAC Engine.
+* **Output:** 20-bit Convolution Result → 8-bit Output via UART TX to Python Visualization.
 
-- **FPGA board:** Digilent Arty A7-100T
-- **FPGA device:** Xilinx Artix-7 XC7A100T
-- **RTL design:** Verilog
-- **FPGA design tool:** Xilinx Vivado
-- **Verification:** Python golden model
-- **Image sensor integration:** OV7670 camera front-end
-
-## Reported Hardware Results
-
-The project presentation reports these implementation figures:
-
-| Metric | Reported result |
-|---|---:|
-| LUT utilization | 2.01% |
-| LUTs used | 1,275 |
-| Flip-flops used | 389 |
-| Critical-path delay | 5.725 ns |
-
-The presentation also reports results for separate architecture variants. For example, one comparison lists 1,176 LUTs and 17.002 ns delay for a Vedic multiplier with CSA and Brent–Kung accumulation, while another lists 1,214 LUTs and 16.808 ns for a CSA/Kogge–Stone configuration. These are different configurations and should not be treated as measurements from the same build.
-
-## Verification and Testing
-
-A Python golden model is used as the reference for checking the hardware output. The design workflow compares convolution results to verify numerical correctness.
-
-The reported evaluation also considers implementation resources, critical-path delay, and power. These metrics depend on the selected RTL configuration and the corresponding FPGA implementation run.
-
-## Team
-
-**Team Sutra-dhar**  
-Track 1 — FPGA  
-KLE Technological University, Hubballi
-
-- Keerti Kallur
-- Manoj H. A.
-- Rutvik Malali
-
-## Reference
-
-The project presentation cites the following research paper for comparison:
-
-[DOI: 10.1109/COMPSAC61105.2024.00071](https://doi.org/10.1109/COMPSAC61105.2024.00071)
+### MAC Engine Microarchitecture (Level 2)
+```text
+[8x8 Image] -> [10x10 Zero Padding] -> [3x3 Window]
+      |
+      v
+[9x Vedic 8x8 Multipliers] -> [R1: 9 Product Registers] (Pipeline Stage 1)
+      |
+      v
+[CSA Tree: 9->6->4->3->2] -> [R2: Sum/Carry Registers] (Pipeline Stage 2)
+      |
+      v
+[20-bit Brent-Kung Adder] -> [R3: 20-bit Output Register] (Pipeline Stage 3)

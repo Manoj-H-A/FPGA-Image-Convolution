@@ -29,8 +29,6 @@ The convolution engine is designed to be parameterized for different image dimen
 
 ---
 
-## 📊 Hardware Results & Comparisons
-
 ### Implementation Highlights
 
 - **Arithmetic Architecture:** Hybrid Carry-Save Adder (CSA) tree and Brent–Kung parallel-prefix adder.

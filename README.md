@@ -49,8 +49,6 @@ The convolution engine is designed to be parameterized for different image dimen
 | VEDIC_CSA-KS | 1,214 | 16.808 | 20,404 |
 
 ---
-
-**Important:** Keep the parameterized-dimension and zero-DSP claims only if they match your Verilog RTL and Vivado synthesis results. Zero DSP usage means the multipliers use FPGA fabric logic rather than dedicated DSP slices.
 ---
 
 ## 🏗️ System Architecture

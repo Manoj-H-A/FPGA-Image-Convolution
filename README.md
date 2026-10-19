@@ -1,4 +1,4 @@
-# Sutra-dhar — FPGA Acceleration of 2D Image Convolution
+# FPGA Acceleration of 2D Image Convolution
 
 **A pipelined FPGA convolution engine using hierarchical Vedic multiplication for low-latency edge processing.**
 
